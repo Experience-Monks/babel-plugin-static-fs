@@ -34,6 +34,11 @@ The following `fs` functions are supported:
 - `fs.readFileSync(filepath, [enc])`
 - `fs.readdirSync(filepath)`
 
+The following `path` functions will be evaluated statically when they are found inside the arguments of the above calls:
+
+- `path.join()`
+- `path.resolve()`
+
 > *Note:* Currently, this module does not emit `'file'` events for Browserify/Webpack, so incremental bundlers will not catch changes to the static file.
 
 ## Install

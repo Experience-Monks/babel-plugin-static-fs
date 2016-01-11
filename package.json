@@ -15,7 +15,6 @@
   },
   "devDependencies": {
     "babel-core": "^6.4.0",
-    "babel-helper-plugin-test-runner": "6.3.13",
     "faucet": "0.0.1",
     "tape": "^4.4.0"
   },
