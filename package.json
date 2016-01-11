@@ -1,0 +1,54 @@
+{
+  "name": "babel-plugin-static-fs",
+  "version": "1.0.0",
+  "description": "statically transforms Node fs for the browser",
+  "main": "index.js",
+  "license": "MIT",
+  "author": {
+    "name": "Matt DesLauriers",
+    "email": "dave.des@gmail.com",
+    "url": "https://github.com/mattdesl"
+  },
+  "dependencies": {
+    "babel-generator": "^6.4.2",
+    "babel-template": "^6.3.13",
+    "babel-types": "^6.4.1",
+    "lodash.clonedeep": "^3.0.2",
+    "resolve": "^1.1.6"
+  },
+  "devDependencies": {
+    "babel-core": "^6.4.0",
+    "babel-helper-plugin-test-runner": "6.3.13",
+    "faucet": "0.0.1",
+    "tape": "^4.4.0"
+  },
+  "scripts": {
+    "test": "node test/index.js | faucet"
+  },
+  "keywords": [
+    "fs",
+    "readFileSync",
+    "inline",
+    "transform",
+    "string",
+    "stringify",
+    "brfs",
+    "browser",
+    "bundler",
+    "bundle",
+    "transforms",
+    "static",
+    "statically",
+    "utf8",
+    "string",
+    "text"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Jam3/babel-plugin-static-fs.git"
+  },
+  "homepage": "https://github.com/Jam3/babel-plugin-static-fs",
+  "bugs": {
+    "url": "https://github.com/Jam3/babel-plugin-static-fs/issues"
+  }
+}
