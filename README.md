@@ -20,7 +20,7 @@ After transformation, it will look like this:
 
 ```js
 import { join } from 'path';
-const src = "Hello, World!";
+const src = 'Hello, World!';
 ```
 
 Your ES5 (npm) distribution code is now usable in Node, Browserify, Webpack, JSPM, and everything in between.
