@@ -10,11 +10,8 @@
     "url": "https://github.com/mattdesl"
   },
   "dependencies": {
-    "babel-generator": "^6.4.2",
     "babel-template": "^6.3.13",
-    "babel-types": "^6.4.1",
-    "lodash.clonedeep": "^3.0.2",
-    "resolve": "^1.1.6"
+    "babel-types": "^6.4.1"
   },
   "devDependencies": {
     "babel-core": "^6.4.0",
