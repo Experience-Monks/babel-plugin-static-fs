@@ -21,6 +21,10 @@ test('babel plugin to accept browserify transforms', function (t) {
   run('readdir', 'readdir', 'readdirSync');
   run('closure', 'closure', 'handles inside function');
   run('buffer', 'buffer', 'handles Buffer');
+  run('hex', 'hex', 'handles encoding');
+
+  // Failing test:
+  // run('inline', 'inline', 'handles inline fs require call');
   t.end();
 
   function run (name, expectedFile, msg) {

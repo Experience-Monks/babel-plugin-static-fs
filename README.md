@@ -39,15 +39,55 @@ The following `path` functions will be evaluated statically when they are found 
 - `path.join()`
 - `path.resolve()`
 
-> *Note:* Currently, this module does not emit `'file'` events for Browserify/Webpack, so incremental bundlers will not catch changes to the static file.
-
 ## Install
 
 ```sh
 npm install babel-plugin-static-fs --save-dev
 ```
 
-After installing, you will need to add it to your `.babelrc` as a new plugin.
+After installing, you will need to add it to your `.babelrc` as a new plugin, or set it up as an option to babelify or Webpack's babel-loader.
+
+For example, in browserify:
+
+```sh
+browserify src/index.js -t [ babelify --plugins static-fs ]
+```
+
+## Usage
+
+See babel docs for more info on using plugins.
+
+You can specify an `onFile` function to the plugin to receive new dependencies.
+
+```js
+var staticFs = require('babel-plugin-static-fs');
+var babel = require('babel-core');
+
+var result = babel.transform(input, {
+  plugins: [
+    [ staticFs, {
+      onFile: onFile
+    } ]
+  ],
+  filename: filename
+});
+
+function onFile (file) {
+  console.log('Discovered new dependency:', file);
+}
+```
+
+## File Watching & Re-Compilation
+
+Since this introduces a new dependency in your graph at build-time, it might not get picked up by file watchers like `watchify`, `budo`, `webpack`, et al.
+
+This seems to be a limitation in the babel + bundler bridge; see [here](https://github.com/babel/babelify/issues/173).
+
+To get around this in Browserify, you can use [brfs-babel](https://www.npmjs.com/package/babel-brfs) which replaces `brfs`.
+
+```sh
+watchify index.js -t brfs-babel
+```
 
 ## Contributing
 

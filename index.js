@@ -2,14 +2,25 @@ var pathModule = require('path');
 var staticEval = require('./lib/static-eval');
 var staticFsModule = require('./lib/fs');
 var staticPathModule = require('./lib/path');
+var noop = function () {};
 
 module.exports = function (babel) {
   var t = babel.types;
 
   var staticModuleName = 'fs';
+
+  // Handles new dependencies being added
+  // to our tool chain. This is a limitation
+  // of Babel + bundler integrations.
+  // See here:
+  // https://github.com/babel/babelify/issues/173
+  var depManager = {
+    onFile: noop
+  };
+
   var modules = {
     path: staticPathModule,
-    fs: staticFsModule
+    fs: staticFsModule(depManager)
   };
 
   // Finds require/import statements
@@ -38,6 +49,7 @@ module.exports = function (babel) {
         if (t.isStringLiteral(arg, { value: staticModuleName })) {
           var id = path.parentPath.node.id;
           var vars = [];
+
           if (t.isObjectPattern(id)) {
             // e.g. const { readFileSync: foo, readFile } = require('fs')
             vars = id.properties.map(function (prop) {
@@ -49,10 +61,15 @@ module.exports = function (babel) {
           } else if (t.isMemberExpression(path.parentPath.node)) {
             // e.g. const readFileSync = require('fs').readFileSync
             var memberExpr = path.parentPath;
-            var varDeclarator = memberExpr.parentPath;
-            t.assertVariableDeclarator(varDeclarator);
-            vars.push(varDeclarator.node.id.name);
-            pathToRemove = varDeclarator.parentPath;
+            var memberParent = memberExpr.parentPath;
+
+            if (t.isVariableDeclarator(memberParent)) {
+              vars.push(memberParent.node.id.name);
+              pathToRemove = memberParent.parentPath;
+            } else {
+              t.assertCallExpression(memberParent);
+              throw new Error('Inline CommonJS statements are not yet supported by static-fs');
+            }
           } else {
             throw new Error('Could not statically evaluate how the ' + staticModuleName + ' module was required/imported.');
           }
@@ -88,6 +105,11 @@ module.exports = function (babel) {
               vars.indexOf(callee.object.name) >= 0) ||
             (t.isIdentifier(callee) &&
               vars.indexOf(callee.name) >= 0)) {
+          // Ensure new dependencies are emitted back to the bundler.
+          if (state.opts && typeof state.opts.onFile === 'function') {
+            depManager.onFile = state.opts.onFile;
+          }
+
           // e.g. readFileSync(...) -> 'foobar'
           // e.g. fs.readFileSync(...) -> 'foobar'
           evaluate(path, state.file.opts.filename);

@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "babel-template": "^6.3.13",
-    "babel-types": "^6.4.1"
+    "babel-types": "^6.4.1",
+    "events": "^1.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.4.0",
