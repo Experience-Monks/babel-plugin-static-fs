@@ -83,7 +83,7 @@ Since this introduces a new dependency in your graph at build-time, it might not
 
 This seems to be a limitation in the babel + bundler bridge; see [here](https://github.com/babel/babelify/issues/173).
 
-To get around this in Browserify, you can use [brfs-babel](https://www.npmjs.com/package/babel-brfs) which replaces `brfs`.
+To get around this in Browserify, you can use [brfs-babel](https://www.npmjs.com/package/brfs-babel) which replaces `brfs`.
 
 ```sh
 watchify index.js -t brfs-babel
