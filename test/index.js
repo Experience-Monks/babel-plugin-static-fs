@@ -23,6 +23,8 @@ test('babel plugin to accept browserify transforms', function (t) {
   run('buffer', 'buffer', 'handles Buffer');
   run('hex', 'hex', 'handles encoding');
 
+  run("require-resolve", "require-resolve", "require.resolve with CommonJS");
+
   // Failing test:
   // run('inline', 'inline', 'handles inline fs require call');
   t.end();
