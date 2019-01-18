@@ -39,6 +39,14 @@ The following `path` functions will be evaluated statically when they are found 
 - `path.join()`
 - `path.resolve()`
 
+You can also use `require.resolve()` like so:
+
+```js
+const fs = require('fs');
+const str = fs.readFileSync(require.resolve('./hello.txt'), 'utf8');
+console.log(str);
+```
+
 ## Install
 
 ```sh
