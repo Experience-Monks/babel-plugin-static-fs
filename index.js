@@ -33,6 +33,9 @@ module.exports = function (babel) {
 
         // now traverse and replace all instances within the scope
         var func = path.getFunctionParent();
+        if (!func) {
+          func = path.findParent(p => p.isProgram());
+        }
         func.traverse(fsApiVisitor(vars, state));
 
         // finally, remove the 'fs' import statements
@@ -76,6 +79,9 @@ module.exports = function (babel) {
 
           // now traverse and replace all instances within the scope
           var func = path.getFunctionParent();
+          if (!func) {
+            func = path.findParent(p => p.isProgram());
+          }
           func.traverse(fsApiVisitor(vars, state));
 
           // finally, remove the 'fs' require statements
