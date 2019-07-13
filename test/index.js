@@ -13,9 +13,11 @@ test('babel plugin to accept browserify transforms', function (t) {
   run('es6-2', 'common', 'es6 destructured import');
   run('es6-3', 'common', 'es6 import with "as" statement');
   run('es6-4', 'common', 'es6 import with "as" statement and other declarations');
+  run('es6-5', 'common', 'es6 import * as');
 
   run('path1', 'path1', 'path.join with CommonJS');
   run('path2', 'path2', 'path.join with es6');
+  run('path3', 'path3', 'import * as path with es6');
   run('multi', 'multi', 'path.join with multi var');
 
   run('readdir', 'readdir', 'readdirSync');
