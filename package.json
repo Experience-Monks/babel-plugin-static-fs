@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-static-fs",
-  "version": "1.2.1",
+  "version": "2.0.0",
   "description": "statically transforms Node fs for the browser",
   "main": "index.js",
   "license": "MIT",
