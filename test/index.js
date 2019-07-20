@@ -1,5 +1,5 @@
 var test = require('tape');
-var babel = require('babel-core');
+var babel = require('@babel/core');
 var fs = require('fs');
 var pluginPath = require.resolve('../');
 
@@ -36,6 +36,6 @@ test('babel plugin to accept browserify transforms', function (t) {
       plugins: [ pluginPath ]
     });
     var expected = fs.readFileSync(__dirname + '/fixtures/' + expectedFile + '.expected.js', 'utf8');
-    t.equals(output.code, expected, msg);
+    t.equals(output.code, expected, `${name}.actual -> ${expectedFile}.expected: ${msg}`);
   }
 });

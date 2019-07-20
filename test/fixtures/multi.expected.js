@@ -1,3 +1,4 @@
 var path = require('path'),
-    src = 'hello';
+    src = "hello";
+
 console.log(src);
