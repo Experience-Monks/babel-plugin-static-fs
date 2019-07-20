@@ -12,7 +12,9 @@
   "dependencies": {
     "@babel/template": "^7.4.4",
     "@babel/types": "^7.5.5",
-    "events": "^1.1.0"
+    "browser-resolve": "^1.11.3",
+    "events": "^1.1.0",
+    "resolve": "^1.11.1"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",

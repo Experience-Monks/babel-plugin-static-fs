@@ -25,7 +25,11 @@ test('babel plugin to accept browserify transforms', function (t) {
   run('buffer', 'buffer', 'handles Buffer');
   run('hex', 'hex', 'handles encoding');
 
-  run('require-resolve', 'require-resolve', 'require.resolve with CommonJS');
+  run('require-resolve-module', 'require-resolve-module-node', 'require.resolve with node target');
+  run('require-resolve-module', 'require-resolve-module-browser', 'require.resolve with browser target', {
+    target: 'browser'
+  });
+  run('require-resolve', 'require-resolve', 'require.resolve with file');
 
   // run('dynamic', 'dynamic', 'gracefully skips dynamic calls');
 
@@ -33,9 +37,12 @@ test('babel plugin to accept browserify transforms', function (t) {
   // run('inline', 'inline', 'handles inline fs require call');
   t.end();
 
-  function run (name, expectedFile, msg) {
+  function run (name, expectedFile, msg, opts) {
+    opts = opts || {};
     var output = babel.transformFileSync(__dirname + '/fixtures/' + name + '.actual.js', {
-      plugins: [ pluginPath ]
+      plugins: [
+        [ pluginPath, opts ]
+      ]
     });
     var expected = fs.readFileSync(__dirname + '/fixtures/' + expectedFile + '.expected.js', 'utf8');
     t.equals(output.code, expected, `${name}.actual -> ${expectedFile}.expected: ${msg}`);

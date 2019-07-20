@@ -74,6 +74,7 @@ var babel = require('babel-core');
 var result = babel.transform(input, {
   plugins: [
     [ staticFs, {
+      target: 'browser', // defaults to node
       onFile: onFile
     } ]
   ],
@@ -84,6 +85,8 @@ function onFile (file) {
   console.log('Discovered new dependency:', file);
 }
 ```
+
+You can also specify the `{ target }` field as either `'node'` or `'browser'`, this will only affect transformed `require.resolve()` calls to modules, determining whether to use a package's `"browser"` field or not. By default, the target is `'node'`.
 
 ## File Watching & Re-Compilation
 

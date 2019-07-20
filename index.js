@@ -103,12 +103,12 @@ module.exports = function (babel) {
     return errors;
   }
 
-  function evaluate (path, file) {
+  function evaluate (opts, path, file) {
     var vars = {
       __filename: file,
       __dirname: pathModule.dirname(file)
     };
-    return staticEval(path, vars, modules);
+    return staticEval(opts, path, vars, modules);
   }
 
   function fsApiVisitor (vars, state, errors) {
@@ -127,7 +127,7 @@ module.exports = function (babel) {
           // e.g. readFileSync(...) -> 'foobar'
           // e.g. fs.readFileSync(...) -> 'foobar'
           // try {
-            evaluate(path, state.file.opts.filename);
+            evaluate(state.opts, path, state.file.opts.filename);
           // } catch (err) {
           //   console.error(err);
           //   errors.push(err);
