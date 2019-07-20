@@ -1,3 +1,4 @@
 var path = require('path'),
-    src = ['foo.txt'];
+    src = ["foo.txt"];
+
 console.log(src);

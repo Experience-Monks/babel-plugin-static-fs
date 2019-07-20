@@ -10,12 +10,13 @@
     "url": "https://github.com/mattdesl"
   },
   "dependencies": {
-    "babel-template": "^6.3.13",
-    "babel-types": "^6.4.1",
+    "@babel/template": "^7.4.4",
+    "@babel/types": "^7.5.5",
     "events": "^1.1.0"
   },
   "devDependencies": {
-    "babel-core": "^6.4.0",
+    "@babel/core": "^7.5.5",
+    "@babel/register": "^7.5.5",
     "faucet": "0.0.1",
     "tape": "^4.4.0"
   },

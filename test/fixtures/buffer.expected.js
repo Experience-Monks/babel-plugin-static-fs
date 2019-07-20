@@ -1,2 +1,2 @@
-var src = Buffer('aGVsbG8=', 'base64');
+var src = Buffer("aGVsbG8=", "base64");
 console.log(src);
