@@ -36,10 +36,11 @@ module.exports = function (babel) {
         if (!func) {
           func = path.findParent(p => p.isProgram());
         }
-        func.traverse(fsApiVisitor(vars, state));
+
+        var errors = traverse(func, vars, state);
 
         // finally, remove the 'fs' import statements
-        path.remove();
+        if (errors.length === 0) path.remove();
       }
     },
     CallExpression: function (path, state) {
@@ -82,10 +83,11 @@ module.exports = function (babel) {
           if (!func) {
             func = path.findParent(p => p.isProgram());
           }
-          func.traverse(fsApiVisitor(vars, state));
+
+          var errors = traverse(func, vars, state);
 
           // finally, remove the 'fs' require statements
-          pathToRemove.remove();
+          if (errors.length === 0) pathToRemove.remove();
         }
       }
     }
@@ -95,6 +97,12 @@ module.exports = function (babel) {
     visitor: Detective
   };
 
+  function traverse (func, vars, state) {
+    const errors = [];
+    func.traverse(fsApiVisitor(vars, state, errors));
+    return errors;
+  }
+
   function evaluate (path, file) {
     var vars = {
       __filename: file,
@@ -103,7 +111,7 @@ module.exports = function (babel) {
     return staticEval(path, vars, modules);
   }
 
-  function fsApiVisitor (vars, state) {
+  function fsApiVisitor (vars, state, errors) {
     return {
       CallExpression: function (path) {
         var callee = path.node.callee;
@@ -118,7 +126,12 @@ module.exports = function (babel) {
 
           // e.g. readFileSync(...) -> 'foobar'
           // e.g. fs.readFileSync(...) -> 'foobar'
-          evaluate(path, state.file.opts.filename);
+          // try {
+            evaluate(path, state.file.opts.filename);
+          // } catch (err) {
+          //   console.error(err);
+          //   errors.push(err);
+          // }
         }
       }
     };
