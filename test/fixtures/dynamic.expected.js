@@ -10,4 +10,6 @@ function evaluated(blah) {
   console.log(result);
 }
 
-setTimeout(evaluated, 1500);
+setTimeout(() => evaluated('/hello.txt'), 1500);
+const str2 = "hello";
+console.log(str2);

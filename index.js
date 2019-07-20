@@ -126,12 +126,10 @@ module.exports = function (babel) {
 
           // e.g. readFileSync(...) -> 'foobar'
           // e.g. fs.readFileSync(...) -> 'foobar'
-          // try {
-            evaluate(state.opts, path, state.file.opts.filename);
-          // } catch (err) {
-          //   console.error(err);
-          //   errors.push(err);
-          // }
+          const result = evaluate(state.opts, path, state.file.opts.filename);
+          if (result instanceof Error) {
+            errors.push(result);
+          }
         }
       }
     };

@@ -9,3 +9,5 @@ function evaluated (blah) {
 }
 
 setTimeout(() => evaluated('/hello.txt'), 1500);
+const str2 = fs.readFileSync(path.join(__dirname, '/hello.txt'), 'utf8');
+console.log(str2);

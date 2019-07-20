@@ -31,7 +31,7 @@ test('babel plugin to accept browserify transforms', function (t) {
   });
   run('require-resolve', 'require-resolve', 'require.resolve with file');
 
-  // run('dynamic', 'dynamic', 'gracefully skips dynamic calls');
+  run('dynamic', 'dynamic', 'gracefully skips dynamic calls');
 
   // Failing test:
   // run('inline', 'inline', 'handles inline fs require call');
