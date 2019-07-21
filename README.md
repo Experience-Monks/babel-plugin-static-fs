@@ -47,6 +47,8 @@ const str = fs.readFileSync(require.resolve('./hello.txt'), 'utf8');
 console.log(str);
 ```
 
+By default, this plugin will gracefully skip expressions that can't be statically evaluated at build time.
+
 ## Install
 
 ```sh
@@ -75,7 +77,8 @@ var result = babel.transform(input, {
   plugins: [
     [ staticFs, {
       target: 'browser', // defaults to node
-      onFile: onFile
+      dynamic: false, // defaults to true
+      onFile: onFile // callback that receives new file dependencies
     } ]
   ],
   filename: filename
@@ -86,7 +89,9 @@ function onFile (file) {
 }
 ```
 
-You can also specify the `{ target }` field as either `'node'` or `'browser'`, this will only affect transformed `require.resolve()` calls to modules, determining whether to use a package's `"browser"` field or not. By default, the target is `'node'`.
+You can specify the `{ target }` field as either `'node'` or `'browser'`, this will only affect transformed `require.resolve()` calls to modules, determining whether to use a package's `"browser"` field or not. By default, the target is `'node'`.
+
+The `{ dynamic }` option (default true) when enabled will gracefully skip expressions that cannot be statically evaluated. If you set this to false, then the build will fail and throw an error when it reaches an expression that cannot be evaluated at build time.
 
 ## File Watching & Re-Compilation
 

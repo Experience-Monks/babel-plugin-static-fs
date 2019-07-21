@@ -32,6 +32,9 @@ test('babel plugin to accept browserify transforms', function (t) {
   run('require-resolve', 'require-resolve', 'require.resolve with file');
 
   run('dynamic', 'dynamic', 'gracefully skips dynamic calls');
+  throws('dynamic', 'dynamic', 'throws when dynamic is false', {
+    dynamic: false
+  });
 
   // Failing test:
   // run('inline', 'inline', 'handles inline fs require call');
@@ -46,5 +49,16 @@ test('babel plugin to accept browserify transforms', function (t) {
     });
     var expected = fs.readFileSync(__dirname + '/fixtures/' + expectedFile + '.expected.js', 'utf8');
     t.equals(output.code, expected, `${name}.actual -> ${expectedFile}.expected: ${msg}`);
+  }
+
+  function throws (name, msg, opts) {
+    opts = opts || {};
+    t.throws(() => {
+      babel.transformFileSync(__dirname + '/fixtures/' + name + '.actual.js', {
+        plugins: [
+          [ pluginPath, opts ]
+        ]
+      });
+    }, msg);
   }
 });

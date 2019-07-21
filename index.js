@@ -126,9 +126,14 @@ module.exports = function (babel) {
 
           // e.g. readFileSync(...) -> 'foobar'
           // e.g. fs.readFileSync(...) -> 'foobar'
-          const result = evaluate(state.opts, path, state.file.opts.filename);
-          if (result instanceof Error) {
-            errors.push(result);
+          try {
+            evaluate(state.opts, path, state.file.opts.filename);
+          } catch (err) {
+            if (state.opts.dynamic !== false) {
+              errors.push(err);
+            } else {
+              throw err;
+            }
           }
         }
       }
