@@ -1,4 +1,5 @@
 var test = require('tape');
+var path = require('path');
 var babel = require('@babel/core');
 var fs = require('fs');
 var pluginPath = require.resolve('../');
@@ -42,19 +43,23 @@ test('babel plugin to accept browserify transforms', function (t) {
 
   function run (name, expectedFile, msg, opts) {
     opts = opts || {};
-    var output = babel.transformFileSync(__dirname + '/fixtures/' + name + '.actual.js', {
+
+    var fileIn = path.join(__dirname, 'fixtures', `${name}.actual.js`);
+    var output = babel.transformFileSync(fileIn, {
       plugins: [
         [ pluginPath, opts ]
       ]
     });
-    var expected = fs.readFileSync(__dirname + '/fixtures/' + expectedFile + '.expected.js', 'utf8');
+    var fileOut = path.join(__dirname, 'fixtures', `${expectedFile}.expected.js`);
+    var expected = fs.readFileSync(fileOut, 'utf8');
     t.equals(output.code, expected, `${name}.actual -> ${expectedFile}.expected: ${msg}`);
   }
 
   function throws (name, msg, opts) {
     opts = opts || {};
     t.throws(() => {
-      babel.transformFileSync(__dirname + '/fixtures/' + name + '.actual.js', {
+      var fileIn = path.join(__dirname, 'fixtures', `${name}.actual.js`);
+      babel.transformFileSync(fileIn, {
         plugins: [
           [ pluginPath, opts ]
         ]
