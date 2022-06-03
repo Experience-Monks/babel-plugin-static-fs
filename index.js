@@ -53,7 +53,7 @@ module.exports = function (babel) {
         // We found "require(fs)"
         const staticModuleName = staticModuleNames.find(
           staticModuleName => t.isStringLiteral(arg, { value: staticModuleName })
-        )
+        );
         if (staticModuleName) {
           var id = path.parentPath.node.id;
           var vars = [];
