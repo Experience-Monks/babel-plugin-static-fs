@@ -7,7 +7,7 @@ var noop = function () {};
 module.exports = function (babel) {
   var t = babel.types;
 
-  var staticModuleName = 'fs';
+  var staticModuleNames = ['fs', 'node:fs'];
 
   // Handles new dependencies being added
   // to our tool chain. This is a limitation
@@ -20,13 +20,14 @@ module.exports = function (babel) {
 
   var modules = {
     path: staticPathModule,
-    fs: staticFsModule(depManager)
+    fs: staticFsModule(depManager),
+    'node:fs': staticFsModule(depManager)
   };
 
   // Finds require/import statements
   var Detective = {
     ImportDeclaration: function (path, state) {
-      if (path.node.source.value === staticModuleName) {
+      if (staticModuleNames.includes(path.node.source.value)) {
         var vars = path.node.specifiers.map(function (spec) {
           return spec.local.name;
         });
@@ -50,7 +51,10 @@ module.exports = function (babel) {
         var pathToRemove = path.parentPath;
 
         // We found "require(fs)"
-        if (t.isStringLiteral(arg, { value: staticModuleName })) {
+        const staticModuleName = staticModuleNames.find(
+          staticModuleName => t.isStringLiteral(arg, { value: staticModuleName })
+        )
+        if (staticModuleName) {
           var id = path.parentPath.node.id;
           var vars = [];
 
